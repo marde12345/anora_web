@@ -1,8 +1,11 @@
+require('dotenv/config')
+
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var models = require("./models");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -27,11 +30,19 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
+// Sequelize sync database
+models.sequelize.sync().then(function () {
+  console.log('Nice! Database looks fine')
+}).catch(function (err) {
+  console.log(err, "Something went wrong with the Database Update!")
+});
+
+
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  res.locals.error = process.env.NODE_ENV === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
