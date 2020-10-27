@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 
+const index = require("../controllers/index");
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("landing/home", { title: "ANORA | Your Data Solution" });
@@ -18,9 +20,7 @@ router.get("/forgot", function (req, res, next) {
   res.render("landing/forgot", { title: "Lupa Kata Sandi | ANORA" });
 });
 
-router.get("/browse", function (req, res, next) {
-  res.render("landing/browse", { title: "Telusuri Statistisi | ANORA" });
-});
+router.get("/browse", index.browse);
 
 router.get("/about", function (req, res, next) {
   res.render("landing/about", { title: "Tentang Kami | ANORA" });

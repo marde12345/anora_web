@@ -9,6 +9,7 @@ var models = require("./models");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var cobaRouter = require("./routes/coba");
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
+app.use("/coba", cobaRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -31,12 +33,11 @@ app.use(function (req, res, next) {
 });
 
 // Sequelize sync database
-models.sequelize.sync().then(function () {
+models.sequelize.authenticate().then(function () {
   console.log('Nice! Database looks fine')
 }).catch(function (err) {
   console.log(err, "Something went wrong with the Database Update!")
 });
-
 
 // error handler
 app.use(function (err, req, res, next) {
