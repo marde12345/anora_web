@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const bcrypt = require("bcrypt")
 module.exports = (sequelize, DataTypes) => {
   class users extends Model {
     /**
@@ -17,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     phone_number: DataTypes.STRING,
-    gender: DataTypes.BOOLEAN
+    gender: DataTypes.BOOLEAN,
+    password: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'users',

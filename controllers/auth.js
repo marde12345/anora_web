@@ -7,9 +7,29 @@ exports.login = async (req, res, next) => {
     var { email, password } = req.body
 
     // Hash password
-    passwordHash = bcrypt.hashSync(password, 8);
+    const salt = await bcrypt.genSalt(10);
+    passwordHash = await bcrypt.hash(password, salt);
 
-    console.log(email, passwordHash);
+    userLogin = await db.users.findOne({
+        where: {
+            email: email,
+        }
+    })
+    console.log(userLogin);
+    // res.send("ok")
+    if (email === userLogin.email) {
+        console.log("Email ok");
+        console.log(passwordHash, userLogin.password);
+        if (await bcrypt.compare(password, userLogin.password)) {
+            // Passwords match
+            console.log("password match");
+        } else {
+            // Passwords don't match
+            return res.status(401).send("Password salah")
+        }
+    } else {
+        return res.status(401).send("Email kosong")
+    }
 
     res.send("good")
 }
@@ -25,5 +45,5 @@ exports.generateToken = async (req, res) => {
     // }
     console.log(payload);
     const token = jwt.sign(payload, process.env.SECRET_JWT);
-    res.send(token)
+    res.send(payloa)
 }
