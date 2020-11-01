@@ -6,23 +6,17 @@ exports.login = async (req, res, next) => {
     // Get email password
     var { email, password } = req.body
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    passwordHash = await bcrypt.hash(password, salt);
-
     userLogin = await db.users.findOne({
         where: {
             email: email,
         }
     })
     console.log(userLogin);
-    // res.send("ok")
+
     if (email === userLogin.email) {
-        console.log("Email ok");
-        console.log(passwordHash, userLogin.password);
         if (await bcrypt.compare(password, userLogin.password)) {
             // Passwords match
-            console.log("password match");
+            res.send(userLogin)
         } else {
             // Passwords don't match
             return res.status(401).send("Password salah")
@@ -30,8 +24,25 @@ exports.login = async (req, res, next) => {
     } else {
         return res.status(401).send("Email kosong")
     }
+}
 
-    res.send("good")
+exports.register = async (req, res) => {
+    var { email, password, firstname, lastname } = req.body
+
+    const salt = await bcrypt.genSalt(10);
+    passwordHash = await bcrypt.hash(password, salt);
+
+    newUser = {
+        email: email,
+        password: passwordHash,
+        firstname: firstname,
+        lastname: lastname,
+        name: firstname + ' ' + lastname
+    }
+
+    const siapa = await db.users.create(newUser);
+
+    res.redirect('../login')
 }
 
 exports.generateToken = async (req, res) => {

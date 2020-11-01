@@ -11,29 +11,29 @@ block content
               img(src='/images/logo-horizontal.png' style='width: 200px !important' alt='')
             h5.font-weight-bold.mt-3 Bergabung dengan ANORA
             p.text-muted Dedikasikan kemampuan professionalmu
-          form(action='index.html')
+          form(action='/auth/register' method='post')
             .form-row
               .col
                 .form-group
                   label.mb-1 Nama depan
                   .position-relative.icon-form-control
                     i.mdi.mdi-account.position-absolute
-                    input.form-control(type='text')
+                    input.form-control(type='text' name='firstname')
               .col
                 .form-group
                   label.mb-1 Nama belakang
                   .position-relative
-                    input.form-control(type='text')
+                    input.form-control(type='text' name='lastname')
             .form-group
               label.mb-1 Email
               .position-relative.icon-form-control
                 i.mdi.mdi-email-outline.position-absolute
-                input.form-control(type='email')
+                input.form-control(type='email' name='email')
             .form-group
               label.mb-1 Password (6 atau lebih karakter)
               .position-relative.icon-form-control
                 i.mdi.mdi-key-variant.position-absolute
-                input.form-control(type='password')
+                input.form-control(type='password' name='password')
             .form-group
               label.mb-1
                 | Anda setuju dengan 
