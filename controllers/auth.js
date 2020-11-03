@@ -32,15 +32,27 @@ exports.register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     passwordHash = await bcrypt.hash(password, salt);
 
-    newUser = {
-        email: email,
-        password: passwordHash,
-        firstname: firstname,
-        lastname: lastname,
-        name: firstname + ' ' + lastname
-    }
+    userExist = await db.users.findOne({
+        where: {
+            email: email,
+        }
+    });
 
-    const siapa = await db.users.create(newUser);
+    if (userExist) {
+        // Send flash message
+        var error = req.flash("error", email + " telah terdaftar");
+        res.redirect('../register')
+    } else {
+        newUser = {
+            email: email,
+            password: passwordHash,
+            firstname: firstname,
+            lastname: lastname,
+            name: firstname + ' ' + lastname
+        }
+
+        const siapa = await db.users.create(newUser);
+    }
 
     res.redirect('../login')
 }

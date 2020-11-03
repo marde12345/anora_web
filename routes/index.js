@@ -9,11 +9,17 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/login", function (req, res, next) {
-  res.render("landing/login", { title: "Login | ANORA" });
+  res.render("landing/login", {
+    title: "Login | ANORA",
+    errors: req.flash("error")
+  });
 });
 
 router.get("/register", function (req, res, next) {
-  res.render("landing/register", { title: "Pendaftaran Baru | ANORA" });
+  res.render("landing/register", {
+    title: "Pendaftaran Baru | ANORA",
+    errors: req.flash("error")
+  });
 });
 
 router.get("/forgot", function (req, res, next) {

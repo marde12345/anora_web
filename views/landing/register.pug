@@ -11,6 +11,14 @@ block content
               img(src='/images/logo-horizontal.png' style='width: 200px !important' alt='')
             h5.font-weight-bold.mt-3 Bergabung dengan ANORA
             p.text-muted Dedikasikan kemampuan professionalmu
+            if successes
+              for success in successes
+                div.alert.alert-success 
+                  strong #{ success }
+            if errors
+              for error, i in errors
+                div.alert.alert-danger
+                  strong #{ error }
           form(action='/auth/register' method='post')
             .form-row
               .col

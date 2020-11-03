@@ -12,6 +12,14 @@ block content
             h5.font-weight-bold.mt-3 Selamat Datang Kembali
             p.text-muted
               | Jangan lewatkan penawaran pengolahan data, dan dapatkan informasi terbaru.
+            if successes
+              for success in successes
+                div.alert.alert-success 
+                  strong #{ success }
+            if errors
+              for error, i in errors
+                div.alert.alert-danger
+                  strong #{ error }
           form(action='/auth/login' method="post")
             .form-group
               label.mb-1 Email atau No. Telepon
