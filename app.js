@@ -22,7 +22,7 @@ app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(session({
-  secret: 'geeksforgeeks',
+  secret: process.env.SECRET,
   saveUninitialized: true,
   resave: true
 }));
@@ -41,12 +41,6 @@ if (process.env.LOCAL === "coba") {
   app.use("/coba", cobaRouter);
 }
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  res.locals.messages = req.flash();
-  next(createError(404));
-});
-
 // Sequelize sync database
 models.sequelize.authenticate().then(function () {
   console.log('Nice! Database looks fine')
@@ -54,9 +48,16 @@ models.sequelize.authenticate().then(function () {
   console.log(err, "Something went wrong with the Database Update!")
 });
 
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  res.locals.messages = req.flash();
+  next(createError(404));
+});
+
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+  res.locals.flash = req.flash;
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV === "development" ? err : {};
 
