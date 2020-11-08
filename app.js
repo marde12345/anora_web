@@ -36,10 +36,8 @@ app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/auth", authRouter);
 
-if (process.env.LOCAL === "coba") {
-  var cobaRouter = require("./routes/coba");
-  app.use("/coba", cobaRouter);
-}
+var cobaRouter = require("./routes/coba");
+app.use("/coba", cobaRouter);
 
 // Sequelize sync database
 models.sequelize.authenticate().then(function () {
